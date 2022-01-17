@@ -1,5 +1,5 @@
 require_relative "log_parser"
 
-runFile = LogParser.new()
+file_parser = LogParser.new("games.log")
 
-runFile.parseLog
+file_parser.log_reader
