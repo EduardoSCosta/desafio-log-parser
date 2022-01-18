@@ -21,7 +21,7 @@ describe '#log_file_parser' do
   context 'when the file exist' do
     it 'read its total number of lines' do
       file_parser = LogParser.new("./spec/fixtures/game_test.log")
-      expect(file_parser.log_file_parser).to eq("{\"./spec/fixtures/game_test.log\":{\"lines\":158}}")
+      expect(file_parser.log_file_parser).to eq("{\"./spec/fixtures/game_test.log\":{\"lines\":159}}")
     end
   end
 end
