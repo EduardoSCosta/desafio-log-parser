@@ -6,8 +6,9 @@ class LogParser
   def log_reader
     if(File.exist?(@file_path))
       @file = File.open(@file_path, "r")
-      puts @file.readlines()[0]
+      @first_line = @file.readlines()[0].chomp
       @file.close
+      @first_line
     else
       raise "File not found."
     end
