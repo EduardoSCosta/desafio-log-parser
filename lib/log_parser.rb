@@ -6,14 +6,31 @@ class LogParser
   end
 
   def first_line_reader
+    file = file_opener
+    begin
+      first_line = file.readline().chomp
+    ensure
+      file.close
+    end
+    first_line
+  end
+  
+  def log_file_parser
+    file = file_opener
+    begin
+      total_lines = log_line_counter(file)
+    ensure
+      file.close
+    end
+    json_generator(total_lines)
+  end
+
+  private
+
+  def file_opener
     if File.exist?(@file_path)
       file = File.open(@file_path, "r")
-      begin
-        first_line = file.readline().chomp
-      ensure
-        file.close
-      end
-      first_line
+      file
     else
       raise "File not found."
     end
@@ -24,24 +41,14 @@ class LogParser
     total_lines
   end
 
-  def log_file_parser
-    if File.exist?(@file_path)
-      file = File.open(@file_path, "r")
-      begin
-        total_lines = log_line_counter(file)
-      ensure
-        file.close
-      end
-      obj = {@file_path =>
-              {
-                :lines => total_lines
-              }
+  def json_generator(total_lines)
+    obj = {@file_path =>
+            {
+              :lines => total_lines
             }
-      json_obj = obj.to_json
-      json_obj
-    else
-      raise "File not found."
-    end
+          }
+    json_obj = obj.to_json
+    json_obj
   end
 
 end
