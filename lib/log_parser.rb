@@ -18,11 +18,11 @@ class LogParser
   def log_file_parser
     file = file_opener
     begin
-      total_lines = log_line_counter(file)
+      json_file = json_generator(file)
     ensure
       file.close
     end
-    json_generator(total_lines)
+    json_file
   end
 
   private
@@ -41,10 +41,10 @@ class LogParser
     total_lines
   end
 
-  def json_generator(total_lines)
+  def json_generator(file)
     obj = {@file_path =>
             {
-              :lines => total_lines
+              :lines => log_line_counter(file)
             }
           }
     json_obj = obj.to_json

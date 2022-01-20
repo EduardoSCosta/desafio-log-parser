@@ -1,6 +1,6 @@
 require_relative '../../lib/log_parser'
 
-describe 'LogParser' do
+describe LogParser do
   describe '#first_line_reader' do
     context 'when the file exist' do
       it 'read its first line' do
