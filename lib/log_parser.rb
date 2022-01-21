@@ -42,11 +42,11 @@ class LogParser
   end
 
   def json_generator(file)
-    obj = {@file_path =>
-            {
-              :lines => log_line_counter(file)
-            }
-          }
+    obj = {
+      @file_path => {             
+        :lines => log_line_counter(file)
+      }
+    }
     json_obj = obj.to_json
     json_obj
   end
