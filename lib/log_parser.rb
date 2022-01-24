@@ -44,10 +44,28 @@ class LogParser
     file_size
   end
 
+  def players_search
+    file_lines = file_reader
+    players = []
+
+    file_lines.each do |line|
+      if line.include?('Kill:')
+        players << line.slice(/[0-9]: \K.*(?= kil)/)
+        players << line.slice(/d \K.*(?= b)/)
+      elsif line.include?('ClientUserinfoChanged')
+        players << line.slice(/[0-9] n\\\K.*(?=(\\t\\[0-9]))/)
+      end
+    end
+    players.uniq!
+    players.delete('<world>')
+    players
+  end
+
   def json_generator
     obj = {
       @file_path => {             
-        :lines => log_line_counter
+        :lines => log_line_counter,
+        :players => players_search
       }
     }
     json_obj = obj.to_json
