@@ -1,11 +1,14 @@
 require_relative '../../lib/log_parser'
 
+FIRST_LINE = "  0:00 ------------------------------------------------------------"
+JSON_RESPONSE = "{\"./spec/fixtures/game_test.log\":{\"lines\":159,\"players\":[\"Isgalamido\",\"Dono da Bola\",\"Mocinha\",\"Zeh\"]}}"
+
 describe LogParser do
   describe '#first_line_reader' do
     context 'when the file exist' do
       it 'read its first line' do
         file_parser = LogParser.new("./spec/fixtures/game_test.log")
-        expect(file_parser.first_line_reader).to eq("  0:00 ------------------------------------------------------------")
+        expect(file_parser.first_line_reader).to eq(FIRST_LINE)
       end
     end
 
@@ -22,7 +25,7 @@ describe LogParser do
     context 'when the file exist' do
       it 'read its total number of lines' do
         file_parser = LogParser.new("./spec/fixtures/game_test.log")
-        expect(file_parser.log_file_parser).to eq("{\"./spec/fixtures/game_test.log\":{\"lines\":159}}")
+        expect(file_parser.log_file_parser).to eq(JSON_RESPONSE)
       end
     end
   end
