@@ -23,7 +23,7 @@ describe LogParser do
 
   describe '#log_file_parser' do
     context 'when the file exist' do
-      it 'read its total number of lines' do
+      it 'read its total number of lines and print the name of the players' do
         file_parser = LogParser.new("./spec/fixtures/game_test.log")
         expect(file_parser.log_file_parser).to eq(JSON_RESPONSE)
       end
