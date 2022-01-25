@@ -74,7 +74,9 @@ class LogParser
     file_lines.each do |line|
       players_hash.each do |item, value|
         if line.include?("#{item} killed")
-          players_hash[item] = value + 1          
+          players_hash[item] = value + 1
+        elsif line.include?("<world> killed #{item}")
+          players_hash[item] = value - 1
         end
       end
     end
