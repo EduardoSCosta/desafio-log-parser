@@ -56,16 +56,38 @@ class LogParser
         players << line.slice(/[0-9] n\\\K.*(?=(\\t\\[0-9]))/)
       end
     end
+
     players.uniq!
     players.delete('<world>')
     players
+  end
+
+  def each_player_kill
+    file_lines = file_reader
+    players_list = players_search
+    players_hash = {}
+
+    players_list.each do |item|
+      players_hash[item] = 0    
+    end
+
+    file_lines.each do |line|
+      players_hash.each do |item, value|
+        if line.include?("#{item} killed")
+          players_hash[item] = value + 1          
+        end
+      end
+    end
+
+    players_hash
   end
 
   def json_generator
     obj = {
       @file_path => {             
         :lines => log_line_counter,
-        :players => players_search
+        :players => players_search,
+        :kills => each_player_kill
       }
     }
     json_obj = obj.to_json
