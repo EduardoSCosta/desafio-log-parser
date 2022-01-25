@@ -82,12 +82,26 @@ class LogParser
     players_hash
   end
 
+  def kill_counter
+    file_lines = file_reader
+    total_kills = 0
+
+    file_lines.each do |line|
+      if line.include?('killed')
+        total_kills += 1
+      end
+    end
+
+    total_kills
+  end
+
   def json_generator
     obj = {
       @file_path => {             
         :lines => log_line_counter,
         :players => players_search,
-        :kills => each_player_kill
+        :kills => each_player_kill,
+        :total_kills => kill_counter
       }
     }
     json_obj = obj.to_json
