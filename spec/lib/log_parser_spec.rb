@@ -5,7 +5,7 @@ RESPONSE = {
   "./spec/fixtures/game_test.log" => {             
     :lines => 159,
     :players => ["Isgalamido","Dono da Bola","Mocinha","Zeh"],
-    :kills => {:Isgalamido => 4, :"Dono da Bola" => 0, :Mocinha => 0, :Zeh => 0},
+    :kills => {:Isgalamido => -4, :"Dono da Bola" => -1, :Mocinha => 0, :Zeh => -2},
     :total_kills => 15
   }
 }
