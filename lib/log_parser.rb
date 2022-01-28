@@ -16,8 +16,7 @@ class LogParser
   end
   
   def log_file_parser
-    json_file = json_generator
-    json_file
+    json_generator
   end
 
   private
@@ -25,8 +24,7 @@ class LogParser
   def file_opener
     raise "File not found." unless File.exist?(@file_path)
 
-    file = File.open(@file_path, "r")
-    file
+    File.open(@file_path, "r")
   end
 
   def file_reader
@@ -48,35 +46,31 @@ class LogParser
     file_lines = file_reader
     players = []
 
-    file_lines.each do |line|
+    players = file_lines.filter_map do |line|
       if line.include?('Kill:')
-        players << line.slice(/[0-9]: \K.*(?= kil)/)
-        players << line.slice(/d \K.*(?= b)/)
+        [line.slice(/[0-9]: \K.*(?= killed )/),
+        line.slice(/killed \K.*(?= by )/)]
       elsif line.include?('ClientUserinfoChanged')
-        players << line.slice(/[0-9] n\\\K.*(?=(\\t\\[0-9]))/)
+        line.slice(/[0-9] n\\\K.*(?=(\\t\\[0-9]))/)
       end
     end
 
-    players.uniq!
-    players.delete('<world>')
+    players.flatten!.uniq!.delete('<world>')
     players
   end
 
   def each_player_kill
     file_lines = file_reader
     players_list = players_search
-    players_hash = {}
 
-    players_list.each do |item|
-      players_hash[item] = 0    
-    end
+    players_hash = players_list.to_h {|player| [player, 0]}
 
     file_lines.each do |line|
-      players_hash.each do |item, value|
-        if line.include?("#{item} killed")
-          players_hash[item] = value + 1
-        elsif line.include?("<world> killed #{item}")
-          players_hash[item] = value - 1
+      players_hash.each do |player_name, player_kills|
+        if line.include?("#{player_name} killed")
+          players_hash[player_name] = player_kills + 1
+        elsif line.include?("<world> killed #{player_name}")
+          players_hash[player_name] = player_kills - 1
         end
       end
     end
@@ -86,15 +80,7 @@ class LogParser
 
   def kill_counter
     file_lines = file_reader
-    total_kills = 0
-
-    file_lines.each do |line|
-      if line.include?('killed')
-        total_kills += 1
-      end
-    end
-
-    total_kills
+    file_lines.select {|line| line.include?('killed')}.size
   end
 
   def json_generator
@@ -106,8 +92,7 @@ class LogParser
         :total_kills => kill_counter
       }
     }
-    json_obj = obj.to_json
-    json_obj
+    obj.to_json
   end
 
 end
