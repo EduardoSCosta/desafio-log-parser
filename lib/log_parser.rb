@@ -16,8 +16,7 @@ class LogParser
   end
   
   def log_file_parser
-    json_file = json_generator
-    json_file
+    json_generator
   end
 
   private
@@ -40,8 +39,7 @@ class LogParser
   end
 
   def log_line_counter
-    file_size = file_reader.size
-    file_size
+    file_reader.size
   end
 
   def players_search
