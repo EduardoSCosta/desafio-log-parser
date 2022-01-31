@@ -15,14 +15,13 @@ describe LogParser do
         expect{file_parser.first_line_reader}.to raise_error("File not found.")
       end
     end
-    
   end
 
   describe '#log_file_parser' do
     context 'when the file exist' do
-      it 'read its total number of lines' do
+      it 'read its total number of lines and print the name of the players' do
         file_parser = LogParser.new("./spec/fixtures/game_test.log")
-        expect(file_parser.log_file_parser).to eq("{\"./spec/fixtures/game_test.log\":{\"lines\":159}}")
+        expect(file_parser.log_file_parser).to eq("{\"./spec/fixtures/game_test.log\":{\"lines\":158,\"players\":[\"Isgalamido\",\"Dono da Bola\",\"Mocinha\",\"Zeh\"]}}")
       end
     end
   end
