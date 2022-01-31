@@ -14,7 +14,7 @@ class LogParser
     end
     first_line
   end
-  
+
   def log_file_parser
     json_generator
   end
@@ -61,13 +61,11 @@ class LogParser
 
   def json_generator
     obj = {
-      @file_path => {             
-        :lines => log_line_counter,
-        :players => players_search
+      @file_path => {
+        lines: log_line_counter,
+        players: players_search
       }
     }
-    json_obj = obj.to_json
-    json_obj
+    obj.to_json
   end
-
 end
