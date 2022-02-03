@@ -16,8 +16,7 @@ class LogParser
   end
   
   def log_file_parser
-    json_file = json_generator
-    json_file
+    json_generator
   end
 
   private
@@ -25,8 +24,7 @@ class LogParser
   def file_opener
     raise "File not found." unless File.exist?(@file_path)
 
-    file = File.open(@file_path, "r")
-    file
+    File.open(@file_path, "r")
   end
 
   def file_reader
@@ -40,8 +38,7 @@ class LogParser
   end
 
   def log_line_counter
-    file_size = file_reader.size
-    file_size
+    file_reader.size
   end
 
   def players_search
@@ -98,14 +95,13 @@ class LogParser
   def json_generator
     obj = {
       @file_path => {             
-        :lines => log_line_counter,
-        :players => players_search,
-        :kills => each_player_kill,
-        :total_kills => kill_counter
+        lines: log_line_counter,
+        players: players_search,
+        kills: each_player_kill,
+        total_kills: kill_counter
       }
     }
-    json_obj = obj.to_json
-    json_obj
-  end
+    obj.to_json
+  end 
 
 end
