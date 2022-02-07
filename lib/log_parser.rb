@@ -6,13 +6,7 @@ class LogParser
   end
 
   def first_line_reader
-    file = file_opener
-    begin
-      first_line = file.readline().chomp
-    ensure
-      file.close
-    end
-    first_line
+    file_reader[0].chomp
   end
   
   def log_file_parser
@@ -24,26 +18,16 @@ class LogParser
         total_kills: kill_counter
       }
     }
-    
+
     obj.to_json
   end
 
   private
 
-  def file_opener
+  def file_reader
     raise "File not found." unless File.exist?(@file_path)
 
-    File.open(@file_path, "r")
-  end
-
-  def file_reader
-    file = file_opener
-    begin
-      file_lines = file.readlines
-    ensure
-      file.close
-    end
-    file_lines
+    File.readlines(@file_path)
   end
 
   def log_line_counter
