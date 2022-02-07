@@ -16,7 +16,16 @@ class LogParser
   end
   
   def log_file_parser
-    json_generator
+    obj = {
+      @file_path => {             
+        lines: log_line_counter,
+        players: players_search,
+        kills: each_player_kill,
+        total_kills: kill_counter
+      }
+    }
+    
+    obj.to_json
   end
 
   private
@@ -91,17 +100,5 @@ class LogParser
 
     total_kills
   end
-
-  def json_generator
-    obj = {
-      @file_path => {             
-        lines: log_line_counter,
-        players: players_search,
-        kills: each_player_kill,
-        total_kills: kill_counter
-      }
-    }
-    obj.to_json
-  end 
 
 end
